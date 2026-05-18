@@ -1,9 +1,13 @@
 # Manual Técnico de Explotación - WillmanTech ERP/CR
 
 **Version:** 1.0.0
+
 **Fecha de emeision:** 2025-05-15
+
 **Elaborado por:** Departamento de Desarrollo DAW/DAM
+
 **Jefe:** Álvaro López De San Román 
+
 **Estandar aplicado:** ISO/IEC/IEE 26514:_2022 - *Requirements for designers and dev of user documentation*
 
 ---
