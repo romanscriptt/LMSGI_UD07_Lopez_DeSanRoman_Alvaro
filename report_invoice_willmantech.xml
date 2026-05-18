@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    
+    <template id="report_invoice_willmantech">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    
+                    <div class="page">
+                        
+                        <div class="row mb-4">
+                            <div class="col-8">
+                                <h2 class="mt-4">
+                                    <strong>FACTURA</strong>
+                                </h2>
+                                <p>
+                                    <strong>Nº Factura: </strong>
+                                    <span t-field="doc.name"/>
+                                </p>
+                                <p>
+                                    <strong>Fecha de Emisión: </strong>
+                                    <span t-field="doc.invoice_date"/>
+                                </p>
+                                <p>
+                                    <strong>Fecha de Vencimiento: </strong>
+                                    <span t-field="doc.invoice_date_due"/>
+                                </p>
+                            </div>
+                            
+                            <div class="col-4 text-right">
+                                <h4>Cliente</h4>
+                                <p>
+                                    <strong t-field="doc.partner_id.name"/>
+                                </p>
+                                <p t-field="doc.partner_id.street"/>
+                                <p>
+                                    <span t-field="doc.partner_id.zip"/>&#160;
+                                    <span t-field="doc.partner_id.city"/>
+                                </p>
+                                <p>
+                                    <strong>CIF/NIF: </strong>
+                                    <span t-field="doc.partner_id.vat"/>
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <table class="table table-sm table-bordered">
+                            <thead style="background-color: #003366; color: white;">
+                                <tr>
+                                    <th>Descripción del Producto / Servicio</th>
+                                    <th class="text-center">Cantidad</th>
+                                    <th class="text-right">Precio Unitario</th>
+                                    <t t-if="any(line.discount for line in doc.invoice_line_ids)">
+                                        <th class="text-center">Descuento (%)</th>
+                                    </t>
+                                    <th class="text-center">Impuesto</th>
+                                    <th class="text-right">Subtotal</th>
+                                </tr>
+                            </thead>
+                            
+                            <tbody>
+                                <t t-foreach="doc.invoice_line_ids" t-as="line">
+                                    <tr>
+                                        <td>
+                                            <span t-field="line.name"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="line.quantity"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.price_unit"/>
+                                        </td>
+                                        <t t-if="any(l.discount for l in doc.invoice_line_ids)">
+                                            <td class="text-center">
+                                                <span t-field="line.discount"/>%
+                                            </td>
+                                        </t>
+                                        <td class="text-center">
+                                            <span t-esc="', '.join(line.tax_ids.mapped('name'))"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.price_subtotal"/>
+                                        </td>
+                                    </tr>
+                                </t>
+                            </tbody>
+                        </table>
+                        
+                        <div class="row">
+                            <div class="col-6 offset-6">
+                                <table class="table table-sm">
+                                    <tr>
+                                        <td><strong>Base Imponible:</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="doc.amount_untaxed"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td><strong>IVA (21%):</strong></td>
+                                        <td class="text-right">
+                                            <span t-field="doc.amount_tax"/>
+                                        </td>
+                                    </tr>
+                                    <tr style="background-color: #003366; color: white;">
+                                        <td><strong>TOTAL NETO:</strong></td>
+                                        <td class="text-right">
+                                            <strong><span t-field="doc.amount_total"/></strong>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                        
+                        <div class="row mt-4">
+                            <div class="col-12">
+                                <t t-if="doc.narration">
+                                    <p><strong>Notas:</strong></p>
+                                    <p t-field="doc.narration"/>
+                                </t>
+                                <p>
+                                    <strong>Forma de Pago: </strong>
+                                    <span t-field="doc.invoice_payment_term_id"/>
+                                </p>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    
+                </t>
+            </t>
+        </t>
+    </template>
+    
+    <report
+        id="action_report_invoice_willmantech"
+        model="account.move"
+        string="Factura WillmanTech"
+        report_type="qweb-pdf"
+        name="willmantech_invoice.report_invoice_willmantech"
+        file="willmantech_invoice.report_invoice_willmantech"
+        attachment_use="False"
+        />
+    
+</odoo>
