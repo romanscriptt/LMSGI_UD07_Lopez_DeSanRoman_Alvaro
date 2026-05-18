@@ -1,13 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+     ENTREGABLE 1 — Plantilla de Informe QWeb (Motor de plantillas Odoo)
+     
+     Las directivas QWeb se escriben como atributos XML con prefijo "t-":
+     t-foreach  → bucle (como un for)
+     t-if       → condición (como un if)
+     t-field    → muestra el valor de un campo del modelo de Odoo
+     t-call     → llama a otra plantilla (como un include)
+     t-as       → alias de la variable del bucle
+-->
+
 <odoo>
-    
     <template id="report_invoice_willmantech">
+
         <t t-call="web.html_container">
+            <!--
+                 Si el usuario imprime 3 facturas a la vez, este bloque
+                 se repite 3 veces, generando 3 páginas en el PDF.
+            -->
             <t t-foreach="docs" t-as="doc">
                 <t t-call="web.external_layout">
                     
+                    <!-- Contenedor principal de la página de la factura -->
                     <div class="page">
                         
+                        <!-- 
+                             BLOQUE 1: CABECERA DE LA FACTURA
+                             Datos principales del documento -->
+                         
                         <div class="row mb-4">
                             <div class="col-8">
                                 <h2 class="mt-4">
@@ -27,8 +47,14 @@
                                 </p>
                             </div>
                             
+                            <!-- Bloque con los datos del cliente (partner) -->
                             <div class="col-4 text-right">
                                 <h4>Cliente</h4>
+                                <!--
+                                     doc.partner_id es un campo relacional Many2one el cual 
+                                     apunta al registro del cliente en res.partner.
+                                     Con t-field accedemos directamente a sus subcampos.
+                                -->
                                 <p>
                                     <strong t-field="doc.partner_id.name"/>
                                 </p>
@@ -44,6 +70,15 @@
                             </div>
                         </div>
                         
+                        <!-- 
+                             BLOQUE 2: TABLA DE LÍNEAS DE FACTURA
+                             Columna "Descuento" condicional-->
+                        <!-- 
+                             La misma condición debe aplicarse en el <thead> y en
+                             cada <tr> del <tbody> para mantener la coherencia
+                             del número de columnas en la tabla HTML.
+                        -->
+                        
                         <table class="table table-sm table-bordered">
                             <thead style="background-color: #003366; color: white;">
                                 <tr>
@@ -53,6 +88,7 @@
                                     <t t-if="any(line.discount for line in doc.invoice_line_ids)">
                                         <th class="text-center">Descuento (%)</th>
                                     </t>
+                                    
                                     <th class="text-center">Impuesto</th>
                                     <th class="text-right">Subtotal</th>
                                 </tr>
@@ -61,48 +97,81 @@
                             <tbody>
                                 <t t-foreach="doc.invoice_line_ids" t-as="line">
                                     <tr>
+                                        <!-- Nombre del producto/servicio -->
                                         <td>
                                             <span t-field="line.name"/>
                                         </td>
+                                        
+                                        <!-- Cantidad (ej: 8.0 horas, 1 licencia) -->
                                         <td class="text-center">
                                             <span t-field="line.quantity"/>
                                         </td>
+                                        
+                                        <!-- Precio unitario sin impuestos -->
                                         <td class="text-right">
                                             <span t-field="line.price_unit"/>
                                         </td>
+                                    
                                         <t t-if="any(l.discount for l in doc.invoice_line_ids)">
                                             <td class="text-center">
                                                 <span t-field="line.discount"/>%
                                             </td>
                                         </t>
+                                        
+                                        <!-- Impuestos aplicados (Many2many: puede haber varios) -->
                                         <td class="text-center">
                                             <span t-esc="', '.join(line.tax_ids.mapped('name'))"/>
                                         </td>
+                                        
+                                        <!--
+                                             price_subtotal: precio ya calculado por Odoo
+                                             (cantidad × precio unitario − descuento).
+                                             Es un campo computed (calculado automáticamente),
+                                             no se almacena directamente, se recalcula.
+                                        -->
                                         <td class="text-right">
                                             <span t-field="line.price_subtotal"/>
                                         </td>
                                     </tr>
                                 </t>
+                                <!-- Fin del bucle de líneas: /t-foreach invoice_line_ids -->
                             </tbody>
                         </table>
                         
+                        <!-- 
+                             BLOQUE 3: TOTALES DE LA FACTURA
+                             Muestra base imponible, IVA y total-->
                         <div class="row">
+                            <!-- Columna izquierda vacía para alinear los totales a la derecha -->
                             <div class="col-6 offset-6">
                                 <table class="table table-sm">
                                     <tr>
                                         <td><strong>Base Imponible:</strong></td>
+                                        <!--
+                                             amount_untaxed: suma de todos los subtotales
+                                             de líneas antes de aplicar impuestos.
+                                        -->
                                         <td class="text-right">
                                             <span t-field="doc.amount_untaxed"/>
                                         </td>
                                     </tr>
                                     <tr>
                                         <td><strong>IVA (21%):</strong></td>
+                                        <!--
+                                             amount_tax: importe total de impuestos.
+                                             En España el IVA general es 21%.
+                                        -->
                                         <td class="text-right">
                                             <span t-field="doc.amount_tax"/>
                                         </td>
                                     </tr>
                                     <tr style="background-color: #003366; color: white;">
                                         <td><strong>TOTAL NETO:</strong></td>
+                                        <!--
+                                             amount_total: importe final a pagar.
+                                             = amount_untaxed + amount_tax
+                                             Este es el campo requerido en el enunciado.
+                                        -->
                                         <td class="text-right">
                                             <strong><span t-field="doc.amount_total"/></strong>
                                         </td>
@@ -111,12 +180,16 @@
                             </div>
                         </div>
                         
+                        <!-- 
+                             BLOQUE 4: PIE DE LA FACTURA
+                             Notas, forma de pago e información legal-->
                         <div class="row mt-4">
                             <div class="col-12">
                                 <t t-if="doc.narration">
                                     <p><strong>Notas:</strong></p>
                                     <p t-field="doc.narration"/>
                                 </t>
+                                
                                 <p>
                                     <strong>Forma de Pago: </strong>
                                     <span t-field="doc.invoice_payment_term_id"/>
@@ -125,12 +198,18 @@
                         </div>
                         
                     </div>
+                    <!-- Fin de .page -->
                     
                 </t>
+                <!-- Fin de t-call="web.external_layout" -->
+                
             </t>
+            <!-- Fin del bucle principal: /t-foreach docs -->
+            
         </t>
+        <!-- Fin de t-call="web.html_container" -->
+        
     </template>
-    
     <report
         id="action_report_invoice_willmantech"
         model="account.move"
