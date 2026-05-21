@@ -1,0 +1,29 @@
+{
+  "invoice": {
+    "id": 1042,
+    "name": "INV/2025/00042",
+    "partner": {
+      "id": 87,
+      "name": "Tecnologías del Sur S.A.",
+      "email": "facturacion@tecnosur.es"
+    },
+    "invoice_lines": [
+      {
+        "product": "Licencia ERP Anual",
+        "quantity": 1.0,
+        "price_unit": 1200.00,
+        "discount": 10.0,
+        "price_subtotal": 1080.00
+      },
+      {
+        "product": "Servicio de Implantación",
+        "quantity": 8.0,
+        "price_unit": 85.00,
+        "discount": 0.0,
+        "price_subtotal": 680.00
+      }
+    ],
+    "amount_untaxed": 1760.00,
+    "amount_total": 2129.60
+  }
+}
