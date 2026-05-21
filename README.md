@@ -15,7 +15,6 @@
 3. [Seguridad y Control de Acceso](#3-seguridad-y-control-de-acceso)
 4. [Procedimiento de Backup y Restauración](#4-procedimiento-de-backup-y-restauración)
 5. [Flujo Operativo de Facturación e Informes](#5-flujo-operativo-de-facturación-e-informes)
-6. [Glosario Técnico](#6-glosario-técnico)
    
 ## 1. Introducción y Arquitectura del Sistema
 ### 1.1 Proposito del Docmuento 
