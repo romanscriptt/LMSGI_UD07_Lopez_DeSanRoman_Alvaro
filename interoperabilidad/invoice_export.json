@@ -3,17 +3,17 @@
     "id": 1042, // ID único del registro de la factura en la base de datos (PostgreSQL)
     "name": "INV/2025/00042",
     "partner": { // Entidad relacional anidada con los datos del cliente
-      "id": 87,
+      "id": 87, // ID del cliente en el maestro de contactos de Odoo
       "name": "Tecnologías del Sur S.A.",
       "email": "facturacion@tecnosur.es"
     },
     "invoice_lines": [ // Colección indexada con los conceptos de la factura
       {
         "product": "Licencia ERP Anual",
-        "quantity": 1.0,
+        "quantity": 1.0, // Cantidad de unidades o licencias vendidas
         "price_unit": 1200.00,
         "discount": 10.0,
-        "price_subtotal": 1080.00
+        "price_subtotal": 1080.00 // Base imponible neta de la línea
       },
       {
         "product": "Servicio de Implantación",
@@ -24,6 +24,6 @@
       }
     ],
     "amount_untaxed": 1760.00, // Base imponible global (Suma de los subtotales de las líneas)
-    "amount_total": 2129.60
+    "amount_total": 2129.60 // Importe total final de la factura (Base imponible + 21% IVA)
   }
 }
