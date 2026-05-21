@@ -32,6 +32,7 @@ WillmanTech ERP es una solucójn de getsión empresarial basada en **Odooo Commu
 ## 1.3 Arquitectura de Despliegue — Docker Compose
 
 El sistema está desplegado mediante **Docker Compose**, una herramienta de orquestación de contenedores que permite definir y levantar múltiples servicios en un único fichero de configuración (`docker-compose.yml`).
+
 <img width="1153" height="715" alt="image" src="https://github.com/user-attachments/assets/79b4e863-ae1f-45c6-8e09-418afd4a5a75" />
 
 ---
@@ -156,6 +157,7 @@ Esta sección describe el flujo completo que sigue un usuario con perfil **Conta
 [5] Validar / Confirmar la factura: -> Botón "Confirmar" — Estado: PUBLICADA 
 [6] Imprimir o enviar el PDF                             
 
+<img width="528" height="332" alt="image" src="https://github.com/user-attachments/assets/796c8f3f-1769-48a3-9860-9332d7bdd1d0" />
 
   
 
