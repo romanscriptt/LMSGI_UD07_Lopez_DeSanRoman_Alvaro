@@ -104,3 +104,18 @@ Odoo no impone políticas de contraseña por defecto. Para WillmanTech se ha con
 | Caducidad de contraseña | 90 días |
 | Reutilización | No repetir últimas 5 |
 
+### 3.4 Hardening de Seguridad Adicional
+
+```bash
+#  Deshabilitamos el gestor de bases de datos público (/web/database/manager)
+docker exec -it willmantech_erp bash
+echo "list_db = False" >> /etc/odoo/odoo.conf
+exit
+docker restart willmantech_erp
+
+# Verificamos que el puerto 5432 (PostgreSQL) NO es accesible desde exterior
+apt install fail2ban -y
+# Regla para Odoo en /etc/fail2ban/jail.local
+```
+---
+
