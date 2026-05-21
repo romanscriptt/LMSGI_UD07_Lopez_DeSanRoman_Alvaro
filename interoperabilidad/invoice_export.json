@@ -1,13 +1,13 @@
 {
   "invoice": {
-    "id": 1042,
+    "id": 1042, // ID único del registro de la factura en la base de datos (PostgreSQL)
     "name": "INV/2025/00042",
-    "partner": {
+    "partner": { // Entidad relacional anidada con los datos del cliente
       "id": 87,
       "name": "Tecnologías del Sur S.A.",
       "email": "facturacion@tecnosur.es"
     },
-    "invoice_lines": [
+    "invoice_lines": [ // Colección indexada con los conceptos de la factura
       {
         "product": "Licencia ERP Anual",
         "quantity": 1.0,
@@ -17,13 +17,13 @@
       },
       {
         "product": "Servicio de Implantación",
-        "quantity": 8.0,
-        "price_unit": 85.00,
+        "quantity": 8.0, // En este caso representa las horas de consultoría
+        "price_unit": 85.00, // Precio por hora
         "discount": 0.0,
-        "price_subtotal": 680.00
+        "price_subtotal": 680.00 // Subtotal neto de la segunda línea
       }
     ],
-    "amount_untaxed": 1760.00,
+    "amount_untaxed": 1760.00, // Base imponible global (Suma de los subtotales de las líneas)
     "amount_total": 2129.60
   }
 }
