@@ -43,8 +43,7 @@ El sistema está desplegado mediante **Docker Compose**, una herramienta de orqu
 
 | Componente | Requisito mínimo | Recomendacion |
 | --- | --- | --- |
-| | | |
-| | | |
-| | | |
-| | | |
-| | | |
+| SO | Ubuntu 22.04 LTS| Ubuntu 22.04 LTS |
+| CPU | 2 vCPU x86_64| 4 vCPU |
+| RAM | 4 GB| 8 GB |
+| Disco | 40 GB SSD | 100 GB SSD |
