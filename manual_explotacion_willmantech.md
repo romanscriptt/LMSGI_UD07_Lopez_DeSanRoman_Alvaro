@@ -13,7 +13,7 @@
 1. [Introducción y Arquitectura del Sistema](#1-introducción-y-arquitectura-del-sistema)
 2. [Guía de Instalación y Reinstalación](#2-guía-de-instalación-y-reinstalación)
 3. [Seguridad y Control de Acceso](#3-seguridad-y-control-de-acceso)
-4.
+4. [Procedimiento de Backup y Restauración](#4-procedimiento-de-backup-y-restauración)
 5.
 6.
 
@@ -130,4 +130,34 @@ WillmanTech utiliza una estrategia de backup **3-2-1** consultada por google com
 |---|---|---|---|
 | Backup completo | Diario  | 30 días | `/backups/` + S3 |
 | Backup incremental | Cada 6 horas | 7 días | `/backups/incremental/` |
+
+# 5. Flujo Operativo de Facturación e Informes
+
+### 5.1 Creación de una Factura de Cliente — Paso a Paso
+
+Esta sección describe el flujo completo que sigue un usuario con perfil **Contable** para generar una factura:
+
+ **FLUJO DE FACTURACIÓN — WillmanTech ERP**                     
+
+[1] Menú: Contabilidad -> Clientes -> Factura
+
+[2] Rellenar cabecera del documento:  
+  -> Cliente: buscar por nombre/NIF
+  ->Fecha de factura: automática (hoy) o manual 
+  -> Término de pago: seleccionar 
+  
+[3] Añadir líneas de detalle:
+  -> Clic en "Añadir una línea"
+  -> eleccionar producto 
+  -> Ajustar cantidad y precio si difiere del catálogo 
+  -> Aplicar descuento si procede (campo Descuento %) 
+  
+[4] Guardar el borrador: -> Botón "Guardar" — Estado: BORRADOR    
+[5] Validar / Confirmar la factura: -> Botón "Confirmar" — Estado: PUBLICADA 
+[6] Imprimir o enviar el PDF                             
+
+
+  
+
+                                                           
 
