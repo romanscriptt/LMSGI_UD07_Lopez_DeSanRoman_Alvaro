@@ -16,7 +16,6 @@
 4.
 5.
 6.
-7.
 
 ## 1. Introducción y Arquitectura del Sistema
 ### 1.1 Proposito del Docmuento 
@@ -118,4 +117,17 @@ apt install fail2ban -y
 # Regla para Odoo en /etc/fail2ban/jail.local
 ```
 ---
+## 4. Procedimiento de Backup y Restauración
+
+### 4.1 Estrategia de Backup
+
+WillmanTech utiliza una estrategia de backup **3-2-1** consultada por google como se manejan las garndes empresas en estas situaciones :
+- **3** copias de los datos
+- en **2** soportes diferentes (disco local + almacenamiento en la nube)
+- con **1** copia fuera del sitio (offsite / cloud)
+
+| Tipo de backup | Frecuencia | Retención | Destino |
+|---|---|---|---|
+| Backup completo | Diario  | 30 días | `/backups/` + S3 |
+| Backup incremental | Cada 6 horas | 7 días | `/backups/incremental/` |
 
